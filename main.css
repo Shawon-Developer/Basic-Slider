@@ -1,0 +1,16 @@
+:root {
+  --web-background-color: #111111;
+  --main-text-color: #efefef;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--web-background-color);
+  color: var(--main-text-color);
+  font-family: "Lato", sans-serif;
+}
