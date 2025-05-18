@@ -1,6 +1,13 @@
 :root {
-  --web-background-color: #111111;
-  --main-text-color: #efefef;
+  --light-primary-background-color: #efefef;
+  --dark-primary-background-color: #111111;
+  --light-primary-text-color: #111111;
+  --dark-primary-text-color: #efefef;
+  --title-font-size: clamp(30px, calc(1rem + 3vw), 1000px);
+  --arrow-container-size: clamp(20px, calc(1rem + 3vw), 1000px);
+  --arrow-size: clamp(10px, calc(0.5rem + 1.5vw), 1000px);
+  --nav-dot-size: clamp(5px, calc(0.5rem + 0.5vw), 1000px);
+  --nav-dot-space: clamp(5px, calc(0.5rem + 0.5vw), 1000px);
 }
 
 * {
@@ -10,7 +17,110 @@
 }
 
 body {
-  background-color: var(--web-background-color);
-  color: var(--main-text-color);
   font-family: "Lato", sans-serif;
+}
+
+#main {
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.light-theme {
+  background-color: var(--light-primary-background-color);
+  color: var(--light-primary-text-color);
+}
+
+.dark-theme {
+  background-color: var(--dark-primary-background-color);
+  color: var(--dark-primary-text-color);
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slider-container {
+  width: 80%;
+  height: 90%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  gap: 2vw;
+}
+
+.red {
+  background-color: red;
+}
+
+.title-container {
+  grid-column: 3 / span 8;
+}
+
+.title-container .title {
+  font-size: var(--title-font-size);
+}
+
+.slider {
+  grid-column: 3 / span 8;
+  grid-row: 2 / span 4;
+  overflow: hidden;
+}
+
+.all-slide {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.slide {
+  min-width: 100%;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.prev-btn {
+  grid-column: 1 / span 2;
+}
+
+.next-btn {
+  grid-column: 11 / span 2;
+}
+
+.prev-btn,
+.next-btn {
+  grid-row: 2 / span 4;
+}
+
+.arrow-btn {
+  width: var(--arrow-container-size);
+  height: var(--arrow-container-size);
+  font-size: var(--arrow-size);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dots-container {
+  grid-column: 3 / span 8;
+  grid-row: 6 / span 1;
+  display: flex;
+  justify-content: center;
+  gap: var(--nav-dot-space);
+}
+
+.dot {
+  width: var(--nav-dot-size);
+  height: var(--nav-dot-size);
+  background-color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
 }

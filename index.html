@@ -16,7 +16,53 @@
     <link rel="stylesheet" type="text/css" media="screen" href="./main.css" />
   </head>
   <body>
-    <h1>Making a basic slider</h1>
+    <div id="main" class="dark-theme">
+      <div class="slider-container">
+        <div class="title-container flex-center">
+          <h1 class="title">Basic Slider</h1>
+        </div>
+        <div class="slider red">
+          <div class="all-slide">
+            <div class="slide">
+              <img src="./slider-images/messi-min.jpg" alt="error" />
+            </div>
+            <div class="slide">
+              <img src="./slider-images/agrintina-min.jpg" alt="error" />
+            </div>
+            <div class="slide">
+              <img src="./slider-images/world-cup-min.jpg" alt="error" />
+            </div>
+            <div class="slide">
+              <img src="./slider-images/messi-10-min.jpg" alt="error" />
+            </div>
+          </div>
+        </div>
+
+        <div class="prev-btn flex-center">
+          <button class="arrow-btn">
+            <i class="fa-solid fa-angle-left"></i>
+          </button>
+        </div>
+        <div class="next-btn flex-center">
+          <button class="arrow-btn">
+            <i class="fa-solid fa-angle-right"></i>
+          </button>
+        </div>
+
+        <div class="dots-container">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Third Party JavaScript Links -->
+    <script
+      src="https://kit.fontawesome.com/13ec0906de.js"
+      crossorigin="anonymous"
+    ></script>
 
     <!-- Custom JavaScript Links -->
     <script src="./main.js"></script>
