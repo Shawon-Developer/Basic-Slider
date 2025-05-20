@@ -15,14 +15,14 @@
     <!-- Custom CSS Links -->
     <link rel="stylesheet" type="text/css" media="screen" href="./main.css" />
   </head>
-  <body>
-    <div id="main" class="dark-theme">
+  <body class="dark-theme">
+    <div id="main">
       <div class="slider-container">
         <div class="title-container flex-center">
           <h1 class="title">Basic Slider</h1>
         </div>
         <div class="slider red">
-          <div class="all-slide">
+          <div class="all-slide-container">
             <div class="slide">
               <img src="./slider-images/messi-min.jpg" alt="error" />
             </div>
@@ -50,10 +50,10 @@
         </div>
 
         <div class="dots-container">
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
+          <span class="dot active" data-index="0"></span>
+          <span class="dot" data-index="1"></span>
+          <span class="dot" data-index="2"></span>
+          <span class="dot" data-index="3"></span>
         </div>
       </div>
     </div>
