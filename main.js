@@ -15,14 +15,39 @@ document.addEventListener("DOMContentLoaded", function () {
     dots[currentIndex].classList.add("active");
   }
 
+  let autoSlide;
+
+  function setSliderInterval() {
+    autoSlide = setInterval(function () {
+      console.log(currentIndex);
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateSlide();
+    }, 5000);
+  }
+
+  setSliderInterval();
+
+  allSlideContainer.addEventListener("mouseenter", function () {
+    clearInterval(autoSlide);
+    console.log("enter");
+  });
+  allSlideContainer.addEventListener("mouseleave", function () {
+    setSliderInterval();
+    console.log("leave");
+  });
+
   nextButton.addEventListener("click", function () {
+    clearInterval(autoSlide);
     currentIndex = (currentIndex + 1) % totalSlides;
     updateSlide();
+    setSliderInterval();
   });
 
   prevButton.addEventListener("click", function () {
+    clearInterval(autoSlide);
     currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
     updateSlide();
+    setSliderInterval();
   });
 
   dots.forEach((dot) =>
