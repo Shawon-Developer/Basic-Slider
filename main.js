@@ -7,21 +7,77 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentIndex = 0;
   const totalSlides = slides.length;
+  let autoSlide;
+  let isDragging = false;
+  let startDragPosition = 0;
+  let currentTranslate = 0;
+  let previousTranslate = 0;
+  let animationID = 0;
+  let allSlideContainerWidth = allSlideContainer.clientWidth;
 
-  function updateSlide() {
+  function getClientPositionX(event) {
+    return event.type.includes("mouse")
+      ? event.pageX
+      : event.touches[0].clientX;
+  }
+
+  function setSliderPositionDrag() {
+    allSlideContainer.style.transform = `translate(${currentTranslate}px)`;
+  }
+
+  function dragReleaseAnimation() {
+    setSliderPositionDrag();
+    if (isDragging) {
+      requestAnimationFrame(dragReleaseAnimation);
+    }
+  }
+
+  function dragStart(index) {
+    return function (event) {
+      isDragging = true;
+      startDragPosition = getClientPositionX(event);
+      animationID = requestAnimationFrame(dragReleaseAnimation);
+      allSlideContainer.classList.add("grabbing");
+    };
+  }
+
+  function dragMove(event) {
+    if (isDragging) {
+      const currentDragPosition = getClientPositionX(event);
+      currentTranslate =
+        previousTranslate + currentDragPosition - startDragPosition;
+    }
+  }
+
+  function dragEnd() {
+    isDragging = false;
+    cancelAnimationFrame(animationID);
+    allSlideContainer.classList.remove("grabbing");
+
+    const movedBY = currentTranslate - previousTranslate;
+
+    if (movedBY < -100 && currentIndex < totalSlides - 1) {
+      currentIndex += 1;
+    } else if (movedBY > 100 && currentIndex > 0) {
+      currentIndex -= 1;
+    }
+
+    updateSlider();
+  }
+
+  function updateSlider() {
+    currentTranslate = -currentIndex * allSlideContainerWidth;
+    previousTranslate = currentTranslate;
     allSlideContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
 
     dots.forEach((dot) => dot.classList.remove("active"));
     dots[currentIndex].classList.add("active");
   }
 
-  let autoSlide;
-
   function setSliderInterval() {
     autoSlide = setInterval(function () {
-      console.log(currentIndex);
       currentIndex = (currentIndex + 1) % totalSlides;
-      updateSlide();
+      updateSlider();
     }, 5000);
   }
 
@@ -29,31 +85,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
   allSlideContainer.addEventListener("mouseenter", function () {
     clearInterval(autoSlide);
-    console.log("enter");
   });
   allSlideContainer.addEventListener("mouseleave", function () {
     setSliderInterval();
-    console.log("leave");
   });
 
   nextButton.addEventListener("click", function () {
     clearInterval(autoSlide);
     currentIndex = (currentIndex + 1) % totalSlides;
-    updateSlide();
+    updateSlider();
     setSliderInterval();
   });
 
   prevButton.addEventListener("click", function () {
     clearInterval(autoSlide);
     currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-    updateSlide();
+    updateSlider();
     setSliderInterval();
   });
 
   dots.forEach((dot) =>
     dot.addEventListener("click", function () {
+      clearInterval(autoSlide);
       currentIndex = parseInt(this.getAttribute("data-index"));
-      updateSlide();
+      updateSlider();
+      setSliderInterval();
     })
   );
+
+  slides.forEach(function (slide, index) {
+    slide.addEventListener("mousedown", dragStart(index));
+    slide.addEventListener("mousemove", dragMove);
+    slide.addEventListener("mouseup", dragEnd);
+    slide.addEventListener("mouseleave", dragEnd);
+
+    slide.addEventListener("touchstart", dragStart(index));
+    slide.addEventListener("touchmove", dragMove);
+    slide.addEventListener("touchend", dragEnd);
+  });
+
+  window.addEventListener("resize", function () {
+    allSlideContainerWidth = allSlideContainer.clientWidth;
+    updateSlider();
+  });
 });

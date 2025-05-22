@@ -89,7 +89,14 @@ body.dark-theme .slider {
   width: 100%;
   height: 100%;
   display: flex;
-  transition: transform .3s ease-in-out;
+  transition: transform 0.2s ease-in;
+  cursor: grab;
+  user-select: none;
+}
+
+.all-slide-container.grabbing {
+  cursor: grabbing;
+  transition: none;
 }
 
 .slide {
@@ -100,6 +107,7 @@ body.dark-theme .slider {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  -webkit-user-drag: none;
 }
 
 .prev-btn {
