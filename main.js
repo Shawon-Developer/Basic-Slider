@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     autoSlide = setInterval(function () {
       currentIndex = (currentIndex + 1) % totalSlides;
       updateSlider();
-    }, 1000);
+    }, 10000);
   }
 
   setSliderInterval();
@@ -121,8 +121,14 @@ document.addEventListener("DOMContentLoaded", function () {
     slide.addEventListener("mouseleave", dragEnd);
 
     slide.addEventListener("touchstart", dragStart(index));
-    slide.addEventListener("touchmove", dragMove);
-    slide.addEventListener("touchend", dragEnd);
+    slide.addEventListener("touchmove", function () {
+      clearInterval(autoSlide);
+      dragMove(event);
+    });
+    slide.addEventListener("touchend", function () {
+      dragEnd();
+      setSliderInterval();
+    });
   });
 
   window.addEventListener("resize", function () {
