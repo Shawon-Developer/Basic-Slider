@@ -92,6 +92,7 @@ body.dark-theme .slider {
   transition: transform 0.2s ease-in;
   cursor: grab;
   user-select: none;
+  will-change: transform;
 }
 
 .all-slide-container.grabbing {
@@ -101,6 +102,7 @@ body.dark-theme .slider {
 
 .slide {
   min-width: 100%;
+  flex-shrink: 0;
 }
 
 .slide img {
@@ -168,4 +170,20 @@ body.dark-theme .dot {
 
 .dot.active {
   opacity: 1;
+}
+
+/* Responsiveness */
+@media screen and (max-width: 540px) {
+  .slider-container {
+    width: 99%;
+    height: 70%;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 2vw;
+  }
+
+  .title-container {
+    grid-column: 1 / span 12;
+  }
 }

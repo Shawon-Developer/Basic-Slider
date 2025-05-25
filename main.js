@@ -15,6 +15,15 @@ document.addEventListener("DOMContentLoaded", function () {
   let animationID = 0;
   let allSlideContainerWidth = allSlideContainer.clientWidth;
 
+  function setSliderInterval() {
+    autoSlide = setInterval(function () {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateSlider();
+    }, 1000);
+  }
+
+  setSliderInterval();
+
   function getClientPositionX(event) {
     return event.type.includes("mouse")
       ? event.pageX
@@ -43,6 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function dragMove(event) {
     if (isDragging) {
+      clearInterval(autoSlide);
       const currentDragPosition = getClientPositionX(event);
       currentTranslate =
         previousTranslate + currentDragPosition - startDragPosition;
@@ -56,10 +66,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const movedBY = currentTranslate - previousTranslate;
 
-    if (movedBY < -100 && currentIndex < totalSlides - 1) {
-      currentIndex += 1;
-    } else if (movedBY > 100 && currentIndex > 0) {
-      currentIndex -= 1;
+    if (movedBY < -100) {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateSlider();
+    } else if (movedBY > 100) {
+      currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+      updateSlider();
     }
 
     updateSlider();
@@ -74,21 +86,10 @@ document.addEventListener("DOMContentLoaded", function () {
     dots[currentIndex].classList.add("active");
   }
 
-  function setSliderInterval() {
-    autoSlide = setInterval(function () {
-      currentIndex = (currentIndex + 1) % totalSlides;
-      updateSlider();
-    }, 5000);
-  }
-
-  setSliderInterval();
-
   allSlideContainer.addEventListener("mouseenter", function () {
     clearInterval(autoSlide);
   });
-  allSlideContainer.addEventListener("mouseleave", function () {
-    setSliderInterval();
-  });
+  allSlideContainer.addEventListener("mouseleave", setSliderInterval);
 
   nextButton.addEventListener("click", function () {
     clearInterval(autoSlide);
